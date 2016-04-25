@@ -17,9 +17,9 @@ app.get('/', function(req, res){
       var title, release, rating;
       var json = { title : "", release : "", rating : ""};
 
-      $('.dbaListing .listingLink').each(function(i, element){
+      $('.dbaListing').each(function(i, element){
         var data = $(this);
-        title = data.text().trim();
+        title = data.children('.expandable-box .listingLink').text().trim();
         userService.addLot(title);
       });
     }
