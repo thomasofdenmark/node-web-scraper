@@ -8,8 +8,7 @@ var app     = express();
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(req, res){
-  // Let's scrape Anchorman 2
-  url = 'http://www.imdb.com/title/tt1229340/';
+  url = 'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc';
 
   request(url, function(error, response, html){
     if(!error){
@@ -18,14 +17,20 @@ app.get('/', function(req, res){
       var title, release, rating;
       var json = { title : "", release : "", rating : ""};
 
-      $('.title_wrapper').filter(function(){
+      $('.dbaListing .listingLink').filter(function(){
         var data = $(this);
-        title = data.children().first().text().trim();
-        release = data.children().last().children().last().text().trim();
-
+        title = data.text().trim();
         json.title = title;
-        json.release = release;
-      })
+      });
+
+      // $('.title_wrapper').filter(function(){
+      //   var data = $(this);
+      //   title = data.children().first().text().trim();
+      //   release = data.children().last().children().last().text().trim();
+
+      //   json.title = title;
+      //   json.release = release;
+      // })  
 
       $('.ratingValue').filter(function(){
         var data = $(this);
