@@ -17,44 +17,24 @@ app.get('/', function(req, res){
       var title, release, rating;
       var json = { title : "", release : "", rating : ""};
 
-      $('.dbaListing .listingLink').filter(function(){
+      $('.dbaListing .listingLink').each(function(i, element){
         var data = $(this);
         title = data.text().trim();
-        json.title = title;
+        userService.addLot(title);
       });
-
-      // $('.title_wrapper').filter(function(){
-      //   var data = $(this);
-      //   title = data.children().first().text().trim();
-      //   release = data.children().last().children().last().text().trim();
-
-      //   json.title = title;
-      //   json.release = release;
-      // })  
-
-      $('.ratingValue').filter(function(){
-        var data = $(this);
-        rating = data.text().trim();
-
-        json.rating = rating;
-      })
     }
     else {
-      res.send('error in service call');
+      return res.send('error in service call');
     }
-
-    // fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
-    //   console.log('File successfully written! - Check your project directory for the output.json file: ', title);
-    // })
-
-    userService.addLot(json.title, function(error) {
-        if (error) {
-          return res.status(500).send('Error when creating user');
+    res.send('success');
+    // userService.addLot(json.title, function(error) {
+    //     if (error) {
+    //       return res.status(500).send('Error when creating user');
         
-        } else {      
-          return res.status(201).send(title);
-        }
-    });
+    //     } else {      
+    //       return res.status(201).send(title);
+    //     }
+    // });
   })
 })
 
