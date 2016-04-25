@@ -42,7 +42,7 @@ app.get('/', function(req, res){
     //   console.log('File successfully written! - Check your project directory for the output.json file: ', title);
     // })
 
-    userService.addLot(title, function(error) {
+    userService.addLot(json.title, function(error) {
         if (error) {
           return res.status(500).send('Error when creating user');
         

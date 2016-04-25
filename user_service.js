@@ -3,9 +3,15 @@ var Firebase = require('firebase');
 var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/');
 
 function addLot(title, callback) {
-	firebaseRef.push({title : title}, function(error, userData) {
-		callback(error);
-	});
+	firebaseRef.push(
+		{
+			title : title,
+			date: Firebase.ServerValue.TIMESTAMP
+		}, 
+		function(error) {
+			callback(error);
+		}
+	);
 }
 
 function addUser(email, password, callback) {
@@ -35,7 +41,6 @@ function authenticate(email, password, callback) {
 		callback(error, authData);
 
 	});
-
 }
 
 module.exports = {
