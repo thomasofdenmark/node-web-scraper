@@ -19,13 +19,15 @@ app.get('/', function(req, res){
 
       $('.dbaListing').each(function(i, element){
         var data = $(this);
-        title = $(data).find('.mainContent .expandable-box .listingLink').text();
-        userService.addLot(title);
+        var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
+        var link = $(data).find('.mainContent .details li:nth-child(0) a').attr('href');
+        userService.addLot(title, link, price);
       });
     }
     else {
       return res.send('error in service call');
     }
+
     res.send('success');
     // userService.addLot(json.title, function(error) {
     //     if (error) {

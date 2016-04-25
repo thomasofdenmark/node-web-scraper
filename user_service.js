@@ -2,11 +2,13 @@ var Firebase = require('firebase');
 
 var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/');
 
-function addLot(title, callback) {
+function addLot(title, link, price, callback) {
 	firebaseRef.push(
 		{
 			title : title,
-			date: Firebase.ServerValue.TIMESTAMP
+			link : link,
+			price : price,
+			date : Firebase.ServerValue.TIMESTAMP
 		}, 
 		function(error) {
 			callback(error);
