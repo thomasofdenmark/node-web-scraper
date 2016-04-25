@@ -19,7 +19,7 @@ app.get('/', function(req, res){
 
       $('.dbaListing').each(function(i, element){
         var data = $(this);
-        title = data.children('.expandable-box .listingLink').text().trim();
+        title = data.children('.mainContent .expandable-box .listingLink').text().trim();
         userService.addLot(title);
       });
     }
