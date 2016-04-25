@@ -2,9 +2,12 @@ var express = require('express');
 var fs      = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
+var userService = require('./user_service');
 var app     = express();
 
-app.get('/scrape', function(req, res){
+app.set('port', (process.env.PORT || 5000));
+
+app.get('/', function(req, res){
   // Let's scrape Anchorman 2
   url = 'http://www.imdb.com/title/tt1229340/';
 
@@ -31,15 +34,25 @@ app.get('/scrape', function(req, res){
         json.rating = rating;
       })
     }
+    else {
+      res.send('error in service call');
+    }
 
-    fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
-      console.log('File successfully written! - Check your project directory for the output.json file');
-    })
+    // fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
+    //   console.log('File successfully written! - Check your project directory for the output.json file: ', title);
+    // })
 
-    res.send('Check your console!')
+    userService.addLot(title, function(error) {
+        if (error) {
+          return res.status(500).send('Error when creating user');
+        
+        } else {      
+          return res.status(201).send(title);
+        }
+    });
   })
 })
 
-app.listen('8081')
-console.log('Magic happens on port 8081');
-exports = module.exports = app;
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
