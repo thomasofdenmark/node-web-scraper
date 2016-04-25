@@ -1,6 +1,6 @@
 var Firebase = require('firebase');
 
-var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/lots');
+var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/');
 var lots = firebaseRef.child('lots');
 
 
