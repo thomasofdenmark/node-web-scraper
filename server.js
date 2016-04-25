@@ -14,14 +14,13 @@ app.get('/', function(req, res){
     if(!error){
       var $ = cheerio.load(html);
 
-      var title, release, rating;
-      var json = { title : "", release : "", rating : ""};
+
 
       $('.dbaListing').each(function(i, element){
         var data = $(this);
-        var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
-        var link = $(data).find('.mainContent .details li:nth-child(0) a').attr('href');
-        userService.addLot(title, link, "22");
+        // var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
+        // var link = $(data).find('.mainContent .details li:nth-child(0) a').attr('href');
+        userService.addLot(title, "dd", "22");
       });
     }
     else {
