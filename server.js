@@ -21,7 +21,7 @@ app.get('/', function(req, res){
         var data = $(this);
         var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
         var link = $(data).find('.mainContent .details li:nth-child(0) a').attr('href');
-        userService.addLot(title, link, price);
+        userService.addLot(title, link, "22");
       });
     }
     else {
