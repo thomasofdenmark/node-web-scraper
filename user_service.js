@@ -6,8 +6,8 @@ var lots = firebaseRef.child('lots');
 
 function addLot(title, link, price, callback) {
 	lots.once('value', function(snapshot) {
-        if (!snapshot.hasChild(title)) {
-            lots.child(title).set({ title: title });
+        if (!snapshot.hasChild(link)) {
+            lots.child(link).set({ link: link });
         }
         else {
             console.log("That lot already exists");
