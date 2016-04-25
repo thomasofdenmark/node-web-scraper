@@ -19,22 +19,24 @@ app.get('/', function(req, res){
         var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
         var link = $(data).find('.mainContent .details li').first().find('a').attr('href');
         var price = $(data).find('td[title="Pris"]').first().text().trim();
-        userService.addLot(title, link, price);
+        var id = link.substring(link.lastIndexOf('id-')).slice(0, -1); // slice for removing traling /
+
+        userService.addLot(id, title, link, price, function(err, newLot) {
+          if(err) {
+            console.log("err: ", err);
+          }
+          else if(newLot) {
+            console.log("yippiieeee", newLot);
+          }
+        });
+
       });
     }
     else {
-      return res.send('error in service call');
+      return res.status(500).send('error in call to dba');
     }
 
-    res.send('success');
-    // userService.addLot(json.title, function(error) {
-    //     if (error) {
-    //       return res.status(500).send('Error when creating user');
-        
-    //     } else {      
-    //       return res.status(201).send(title);
-    //     }
-    // });
+    res.status(201).send('success');
   })
 })
 
