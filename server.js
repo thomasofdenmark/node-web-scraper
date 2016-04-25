@@ -18,7 +18,7 @@ app.get('/', function(req, res){
         var data = $(this);
         var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
         var link = $(data).find('.mainContent .details li').first().find('a').attr('href');
-        var price = $(data).find('td[title="Pris"]').first().find('a').text().trim();
+        var price = $(data).find('td[title="Pris"]').first().text().trim();
         userService.addLot(title, link, price);
       });
     }
