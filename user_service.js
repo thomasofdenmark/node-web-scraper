@@ -10,7 +10,7 @@ function addLot(title, link, price, callback) {
             lots.child(title).set({ title: title });
         }
         else {
-            alert("That lot already exists");
+            console.log("That lot already exists");
         }
     });
 }
