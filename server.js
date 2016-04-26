@@ -10,9 +10,8 @@ app.set('port', (process.env.PORT || 5000));
 app.get('/', function(req, res){
     res.status(201).send('success'); // do not timeout in order to satisfy CRON
 
-    url = 'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc';
-
-    request(url, function(error, response, html){
+    // DBA
+    request('http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc', function(error, response, html){
         if(!error){
             var $ = cheerio.load(html);
 
@@ -22,29 +21,64 @@ app.get('/', function(req, res){
                 var link = $(data).find('.mainContent .details li').first().find('a').attr('href');
                 var price = $(data).find('td[title="Pris"]').first().text().trim();
                 var id = link.substring(link.lastIndexOf('id-')).slice(0, -1); // slice to remove traling "/"
+                var media = 'dba';
 
-                dbService.addLot(id, title, link, price, function(err, newLot) {
+                dbService.addLot(id, title, link, price, media, function(err, newLot) {
                     if(err) {
                         console.log("err: ", err);
                     }
                     else if(newLot) {
-                        console.log("yippiieeee", newLot);
                         // send succes mail
-                        sendgrid.send({
-                          to:       'thomasofdenmark@gmail.com',
-                          from:     'dba@example.com',
-                          subject:  newLot.price+' : '+newLot.title,
-                          html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
-                        }, function(err, json) {
-                          if (err) { return console.error(err); }
-                          console.log(json);
-                        });
+                        if(req.headers.host.lastIndexOf('localhost') == -1) {
+                            sendgrid.send({
+                                to:       'thomasofdenmark@gmail.com',
+                                from:     'dba@example.com',
+                                subject:  newLot.price+' : '+newLot.title,
+                                html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
+                            }, function(err, json) {
+                                if (err) { return console.error(err); }
+                                console.log(json);
+                            });
+                        }
                     }
                 });
             });
         }
-        else {
-          // send error mail
+    })
+
+    // Gul og gratis
+    request('http://www.guloggratis.dk/s/q-dyksav/', function(error, response, html){
+        if(!error){
+            var $ = cheerio.load(html);
+
+            $('.items-list .item').each(function(i, element){
+                var data = $(this);
+                var title = $(data).find('.col2 .text a').text().trim();
+                var link = $(data).attr('data-adlink');
+                var price = $(data).find('.col4').text().trim();
+                var id = link.substring(link.lastIndexOf('/'), link.lastIndexOf('-')); // slice to remove traling "/"
+                var media = 'guloggratis';
+
+                dbService.addLot(id, title, link, price, media, function(err, newLot) {
+                    if(err) {
+                        console.log("err: ", err);
+                    }
+                    else if(newLot) {
+                        // send succes mail
+                        if(req.headers.host.lastIndexOf('localhost') == -1) {
+                            sendgrid.send({
+                                to:       'thomasofdenmark@gmail.com',
+                                from:     'guloggratis@example.com',
+                                subject:  newLot.price+' : '+newLot.title,
+                                html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
+                            }, function(err, json) {
+                                if (err) { return console.error(err); }
+                                console.log(json);
+                            });
+                        }
+                    }
+                });
+            });
         }
     })
 })

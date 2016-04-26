@@ -1,10 +1,12 @@
 'use strict';
 
 var Firebase = require('firebase');
-var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/');
-var lots = firebaseRef.child('lots');
+var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/lots/');
 
-function addLot(id, title, link, price, callback) {
+
+function addLot(id, title, link, price, media, callback) {
+    let lots = firebaseRef.child(media);
+
 	lots.once('value', function(snapshot) {
         if (!snapshot.hasChild(id)) {
         	let newLot = { id: id, title: title, link: link, price: price };
