@@ -12,6 +12,7 @@
     "cheerio": "latest",
     "express": "latest",
     "firebase": "^2.4.2",
-    "request": "latest"
+    "request": "latest",
+    "sendgrid": "2.0.0"
   }
 }
