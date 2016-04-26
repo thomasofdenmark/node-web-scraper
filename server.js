@@ -32,8 +32,8 @@ app.get('/', function(req, res){
                         // send succes mail
                         sendgrid.send({
                           to:       'thomasofdenmark@gmail.com',
-                          from:     'other@example.com',
-                          subject:  'DBA: '+newLot.price+' : '+newLot.title,
+                          from:     'dba@example.com',
+                          subject:  newLot.price+' : '+newLot.title,
                           html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
                         }, function(err, json) {
                           if (err) { return console.error(err); }
