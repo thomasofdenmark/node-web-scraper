@@ -8,7 +8,8 @@ var mailService = require('./mail_service');
 var app     = express();
 
 var dbaQueries = [
-    'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc'
+    'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc',
+    'http://www.dba.dk/soeg/?soeg=festool&sort=listingdate-desc'
 ];
 var guloggratisQueries = [
     'http://www.guloggratis.dk/s/q-dyksav/',
