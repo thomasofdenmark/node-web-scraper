@@ -4,17 +4,16 @@ var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
 var dbService = require('./db_service');
+var mailService = require('./mail_service');
 var app     = express();
-var sendgrid  = require('sendgrid')('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');
 
 var dbaQueries = [
     'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc'
-]
-
+];
 var guloggratisQueries = [
     'http://www.guloggratis.dk/s/q-dyksav/',
     'http://www.guloggratis.dk/s/q-festool/'
-]
+];
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -36,22 +35,9 @@ app.get('/', function(req, res){
                     let media = 'dba';
 
                     dbService.addLot(id, title, link, price, media, function(err, newLot) {
-                        if(err) {
-                            console.log("err: ", err);
-                        }
+                        if(err) {console.log("err: ", err);}
                         else if(newLot) {
-                            // send succes mail
-                            if(req.headers.host.lastIndexOf('localhost') == -1) {
-                                sendgrid.send({
-                                    to:       'thomasofdenmark@gmail.com',
-                                    from:     'dba@example.com',
-                                    subject:  newLot.price+' : '+newLot.title,
-                                    html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
-                                }, function(err, json) {
-                                    if (err) { return console.error(err); }
-                                    console.log(json);
-                                });
-                            }
+                            mailService.sendMail(newLot, media, req);
                         }
                     });
                 });
@@ -70,26 +56,13 @@ app.get('/', function(req, res){
                     let title = $(data).find('.col2 .text a').text().trim();
                     let link = $(data).attr('data-adlink');
                     let price = $(data).find('.col4').text().trim();
-                    let id = link.substring(link.lastIndexOf('/')); // slice to remove traling "/"
+                    let id = link.substring(link.lastIndexOf('/'));
                     let media = 'guloggratis';
 
                     dbService.addLot(id, title, link, price, media, function(err, newLot) {
-                        if(err) {
-                            console.log("err: ", err);
-                        }
+                        if(err) {console.log("err: ", err);}
                         else if(newLot) {
-                            // send succes mail
-                            if(req.headers.host.lastIndexOf('localhost') == -1) {
-                                sendgrid.send({
-                                    to:       'thomasofdenmark@gmail.com',
-                                    from:     'guloggratis@example.com',
-                                    subject:  newLot.price+' : '+newLot.title,
-                                    html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
-                                }, function(err, json) {
-                                    if (err) { return console.error(err); }
-                                    console.log(json);
-                                });
-                            }
+                            mailService.sendMail(newLot, media, req);
                         }
                     });
                 });
