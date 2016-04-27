@@ -70,7 +70,7 @@ app.get('/', function(req, res){
                     let title = $(data).find('.col2 .text a').text().trim();
                     let link = $(data).attr('data-adlink');
                     let price = $(data).find('.col4').text().trim();
-                    let id = link.substring(link.lastIndexOf('/'), link.lastIndexOf('-')); // slice to remove traling "/"
+                    let id = link.substring(link.lastIndexOf('/')); // slice to remove traling "/"
                     let media = 'guloggratis';
 
                     dbService.addLot(id, title, link, price, media, function(err, newLot) {
