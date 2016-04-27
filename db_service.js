@@ -3,7 +3,6 @@
 var Firebase = require('firebase');
 var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/lots/');
 
-
 function addLot(id, title, link, price, media, callback) {
     let lots = firebaseRef.child(media);
 

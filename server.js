@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
@@ -13,15 +15,15 @@ app.get('/', function(req, res){
     // DBA
     request('http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc', function(error, response, html){
         if(!error){
-            var $ = cheerio.load(html);
+            let $ = cheerio.load(html);
 
             $('.dbaListing').each(function(i, element){
-                var data = $(this);
-                var title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
-                var link = $(data).find('.mainContent .details li').first().find('a').attr('href');
-                var price = $(data).find('td[title="Pris"]').first().text().trim();
-                var id = link.substring(link.lastIndexOf('id-')).slice(0, -1); // slice to remove traling "/"
-                var media = 'dba';
+                let data = $(this);
+                let title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
+                let link = $(data).find('.mainContent .details li').first().find('a').attr('href');
+                let price = $(data).find('td[title="Pris"]').first().text().trim();
+                let id = link.substring(link.lastIndexOf('id-')).slice(0, -1); // slice to remove traling "/"
+                let media = 'dba';
 
                 dbService.addLot(id, title, link, price, media, function(err, newLot) {
                     if(err) {
@@ -44,20 +46,20 @@ app.get('/', function(req, res){
                 });
             });
         }
-    })
+    });
 
     // Gul og gratis
     request('http://www.guloggratis.dk/s/q-dyksav/', function(error, response, html){
         if(!error){
-            var $ = cheerio.load(html);
+            let $ = cheerio.load(html);
 
             $('.items-list .item').each(function(i, element){
-                var data = $(this);
-                var title = $(data).find('.col2 .text a').text().trim();
-                var link = $(data).attr('data-adlink');
-                var price = $(data).find('.col4').text().trim();
-                var id = link.substring(link.lastIndexOf('/'), link.lastIndexOf('-')); // slice to remove traling "/"
-                var media = 'guloggratis';
+                let data = $(this);
+                let title = $(data).find('.col2 .text a').text().trim();
+                let link = $(data).attr('data-adlink');
+                let price = $(data).find('.col4').text().trim();
+                let id = link.substring(link.lastIndexOf('/'), link.lastIndexOf('-')); // slice to remove traling "/"
+                let media = 'guloggratis';
 
                 dbService.addLot(id, title, link, price, media, function(err, newLot) {
                     if(err) {
@@ -80,8 +82,8 @@ app.get('/', function(req, res){
                 });
             });
         }
-    })
-})
+    });
+});
 
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
