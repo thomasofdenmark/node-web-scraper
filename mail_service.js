@@ -8,7 +8,7 @@ function sendMail(newLot, media, req) {
             to:       'thomasofdenmark@gmail.com',
             from:     media+'@example.com',
             subject:  newLot.price+' : '+newLot.title,
-            html:     '<h3>'+newLot.title+'</h3><br><h4>'+newLot.price+'</h4><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
+            html:     '<p>'+encodeURIComponent(newLot.title)+'<p><p>'+newLot.price+'</p><br><a href="'+newLot.link+'">'+newLot.link+'</a>'
         }, function(err, json) {
             if (err) { return console.error(err); }
             console.log(json);
