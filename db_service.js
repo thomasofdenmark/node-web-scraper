@@ -3,18 +3,14 @@
 var Firebase = require('firebase');
 var firebaseRef = new Firebase('https://lot-scraper.firebaseio.com/lots/');
 
-function addLot(id, title, link, price, media, callback) {
+function addLot(newLot, media, callback) {
     let lots = firebaseRef.child(media);
 
 	lots.once('value', function(snapshot) {
-        if (!snapshot.hasChild(id)) {
-        	let newLot = { id: id, title: title, link: link, price: price };
-            lots.child(id).set(newLot);
-            console.log('Added new lot: ', id);
+        if (!snapshot.hasChild(newLot.id)) {
+        	lots.child(newLot.id).set(newLot);
+            console.log('Added new lot: ', newLot);
             callback(null, newLot);
-        }
-        else {
-            console.log('That lot already exists');
         }
     }, function (err) {
     	callback(err, null);

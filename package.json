@@ -12,6 +12,8 @@
     "cheerio": "latest",
     "express": "latest",
     "firebase": "^2.4.2",
+    "iconv-lite": "^0.4.13",
+    "nodemailer": "^2.3.2",
     "request": "latest",
     "sendgrid": "2.0.0"
   }
