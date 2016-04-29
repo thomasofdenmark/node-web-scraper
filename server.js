@@ -10,7 +10,8 @@ var app     = express();
 
 var dbaQueries = [
     'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc',
-    'http://www.dba.dk/soeg/?soeg=festool&sort=listingdate-desc'
+    'http://www.dba.dk/soeg/?soeg=festool&sort=listingdate-desc',
+    'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/?soeg=cmt&sort=listingdate-desc'
 ];
 var guloggratisQueries = [
     'http://www.guloggratis.dk/s/q-dyksav/',
@@ -34,11 +35,11 @@ app.get('/', function(req, res){
                     let media = 'dba';
                     let newLot = {};
 
-                    newLot.title = $(data).find('.mainContent .expandable-box .listingLink').text().trim();
-                    newLot.link = $(data).find('.mainContent .details li').first().find('a').attr('href');
-                    newLot.price = $(data).find('td[title="Pris"]').first().text().trim();
-                    newLot.imageUrl = $(data).find('.pictureColumn .thumbnailContainer .thumbnailContainerInner img.thumbnail').attr('src');
-                    newLot.id = newLot.link.substring(newLot.link.lastIndexOf('id-')).slice(0, -1); // slice to remove traling "/"
+                    newLot.title = $(data).find('.mainContent .expandable-box .listingLink').text().trim() || '';
+                    newLot.link = $(data).find('.mainContent .details li').first().find('a').attr('href') || '';
+                    newLot.price = $(data).find('td[title="Pris"]').first().text().trim() || '';
+                    newLot.imageUrl = $(data).find('.pictureColumn .thumbnailContainer .thumbnailContainerInner img.thumbnail').attr('src') || '';
+                    newLot.id = newLot.link.substring(newLot.link.lastIndexOf('id-')).slice(0, -1) || ''; // slice to remove traling "/"
 
                     dbService.addLot(newLot, media, function(err, insertedLot) {
                         if(err) {console.log("err: ", err);}
@@ -63,11 +64,11 @@ app.get('/', function(req, res){
                     let media = 'guloggratis';
                     let newLot = {};
                     
-                    newLot.title = $(data).find('.col2 .text a').text().trim();
-                    newLot.link = $(data).attr('data-adlink');
-                    newLot.price = $(data).find('.col4').text().trim();
-                    newLot.imageUrl = $(data).find('.col1 .large_image_container img').attr('src');
-                    newLot.id = newLot.link.substring(newLot.link.lastIndexOf('/'));
+                    newLot.title = $(data).find('.col2 .text a').text().trim() || '';
+                    newLot.link = $(data).attr('data-adlink') || '';
+                    newLot.price = $(data).find('.col4').text().trim() || '';
+                    newLot.imageUrl = $(data).find('.col1 .large_image_container img').attr('src') || '';
+                    newLot.id = newLot.link.substring(newLot.link.lastIndexOf('/')) || '';
 
                     dbService.addLot(newLot, media, function(err, insertedLot) {
                         if(err) {console.log("err: ", err);}

@@ -27,8 +27,8 @@ var transporter = nodemailer.createTransport({
 });
 
 function sendMail(newLot, media, req) {
-    //if(req.headers.host.lastIndexOf('localhost') == -1) {
-    if(true) {
+    if(req.headers.host.lastIndexOf('localhost') == -1) {
+    //if(true) {
         var mailOptions = {
             to:     'thomasofdenmark@gmail.com',
             from:   media+'@example.com',
