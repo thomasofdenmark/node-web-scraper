@@ -11,7 +11,8 @@ var app     = express();
 var dbaQueries = [
     'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/elvaerktoej/produkt-dyksav/?sort=listingdate-desc',
     'http://www.dba.dk/soeg/?soeg=festool&sort=listingdate-desc',
-    'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/?soeg=cmt&sort=listingdate-desc'
+    'http://www.dba.dk/have-og-byg/vaerktoej-arbejdsredskaber-og-maskiner/?soeg=cmt&sort=listingdate-desc',
+    'http://www.dba.dk/soeg/?soeg=mafell&sort=listingdate-desc'
 ];
 var guloggratisQueries = [
     'http://www.guloggratis.dk/s/q-dyksav/',
