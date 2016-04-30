@@ -16,7 +16,9 @@ var dbaQueries = [
 ];
 var guloggratisQueries = [
     'http://www.guloggratis.dk/s/q-dyksav/',
-    'http://www.guloggratis.dk/s/q-festool/'
+    'http://www.guloggratis.dk/s/q-festool/',
+    'http://www.guloggratis.dk/s/q-mafell/',
+    'http://www.guloggratis.dk/maskiner/vaerktoj-arbejdsredskaber/q-cmt/'
 ];
 
 app.set('port', (process.env.PORT || 5000));
